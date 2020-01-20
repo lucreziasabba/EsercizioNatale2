@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace WpfEsercizioNatale2
 {
@@ -24,36 +25,47 @@ namespace WpfEsercizioNatale2
         {
             InitializeComponent();
         }
-
+        private const string file = "Risultati.txt";
+        double risultato;
         private void Calcola_Click(object sender, RoutedEventArgs e)
         {
             double num1 = double.Parse(txtNum1.Text);
             double num2 = double.Parse(txtNum2.Text);
-             //  MessageBox.Show("Inserisci dei numeri!");
-
+            string operatore = "";
             if (cmbOperazione.SelectedIndex == 0)
-                {
-                    double risultato = num1 + num2;
-                    txtRisultato.Text = $"{risultato}";
-                }
+            {
+                operatore = "+";
+                double somma = num1 + num2;
+                risultato = somma;
+                txtRisultato.Text = $"{somma}";
+            }
             if (cmbOperazione.SelectedIndex == 1)
             {
-                double risultato = num1 - num2;
-                txtRisultato.Text = $"{risultato}";
+                operatore = "-";
+                double sottrazione = num1 - num2;
+                risultato = sottrazione;
+                txtRisultato.Text = $"{sottrazione}";
             }
             if (cmbOperazione.SelectedIndex == 2)
             {
-                double risultato = num1 * num2;
-                txtRisultato.Text = $"{risultato}";
+                operatore = "*";
+                double moltiplicazione = num1 * num2;
+                risultato = moltiplicazione;
+                txtRisultato.Text = $"{moltiplicazione}";
             }
             if (cmbOperazione.SelectedIndex == 3)
             {
-                double risultato = num1 / num2;
-                txtRisultato.Text = $"{risultato}";
-                if( num1 ==0 || num2 == 0)
+                operatore = "/";
+                double divisione = num1 / num2;
+                risultato = divisione;
+                txtRisultato.Text = $"{divisione}";
+                if(num1==0 || num2==0)
                     MessageBox.Show("Numero non valido!");
             }
-
+            using (StreamWriter x = new StreamWriter(file, true))
+            {
+                x.WriteLine($"{num1} {operatore} {num2} = {risultato}");
+            }
         }
     }
 }
